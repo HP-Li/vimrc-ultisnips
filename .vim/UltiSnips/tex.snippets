@@ -447,6 +447,9 @@ endsnippet
 snippet "([A-Za-z])scr" "mathscr" ri
 \\mathscr{`!p snip.rv=match.group(1)`}
 endsnippet
+snippet "([A-Za-z])cal" "mathscr" ri
+\\mathcal{`!p snip.rv=match.group(1)`}
+endsnippet
 
 #physics
 snippet	\+ "dagger" i
@@ -470,5 +473,10 @@ snippet frame "frame" b
 \\begin{frame}
 $1
 \\end{frame}
+$0
+endsnippet
+
+snippet eql "eql" b
+\\label{equ:p$1}
 $0
 endsnippet
