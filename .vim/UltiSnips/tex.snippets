@@ -182,6 +182,13 @@ snippet eqs "equations" b
 \\end{split}
 \\end{equation}
 endsnippet
+snippet eqsnn "nonumberequations" b
+\\begin{equation*}
+\\begin{split}
+	${1:${VISUAL}}
+\\end{split}
+\\end{equation*}
+endsnippet
 snippet eq "equation" b
 \\begin{equation}
 	${1:${VISUAL}}
@@ -479,4 +486,16 @@ endsnippet
 snippet eql "eql" b
 \\label{equ:p$1}
 $0
+endsnippet
+#snippet box "Box"
+#`!p snip.rv = '┌' + '─' * (len(t[1]) + 2) + '┐'`
+#│ $1 │
+#`!p snip.rv = '└' + '─' * (len(t[1]) + 2) + '┘'`
+#$0
+#endsnippet
+snippet "Roman(\d)" "Roman number" ir
+\\uppercase\\expandafter{\\romannumeral`!p snip.rv=match.group(1)`}
+endsnippet
+snippet "roman(\d)" "roman number" ir
+\\romannumeral`!p snip.rv=match.group(1)`
 endsnippet
