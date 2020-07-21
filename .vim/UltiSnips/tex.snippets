@@ -169,6 +169,13 @@ $1
 \\]
 $0
 endsnippet
+snippet eql "eql" b
+\\begin{equation}
+\\label{equ:p$1}
+$2
+\\end{equation}
+$0
+endsnippet
 snippet eqnn "euqation" b
 \\begin{equation*}
 	${1:${VISUAL}}
@@ -273,17 +280,17 @@ snippet 00 "infty" i
 \\infty
 endsnippet
 priority 1000
-#snippet int "int" i
-#\\int
-#endsnippet
-#priority 10000
-#snippet iint "dint" i
-#\\iint
-#endsnippet
-#priority 100000
-#snippet iiint "tint" i
-#\\iiint
-#endsnippet
+snippet int "sint" i
+\\int
+endsnippet
+priority 10000
+snippet dint "dint" i
+\\iint
+endsnippet
+priority 100000
+snippet tint "tint" i
+\\iiint
+endsnippet
 snippet mathscr "mathscr" i
 \\mathscr{${1:${VISUAL}}}$0
 endsnippet
@@ -292,11 +299,38 @@ endsnippet
 snippet us "^{} superscript" i
 ^{${1:${VISUAL}}}$0
 endsnippet
+snippet usp "^{+} superscript" i
+^{+}$0
+endsnippet
+snippet usm "^{-} superscript" i
+^{-}$0
+endsnippet
+snippet usz "^{0} superscript" i
+^{0}$0
+endsnippet
 snippet ds "_{} subscript" i
 _{${1:${VISUAL}}}$0
 endsnippet
+snippet dsp "_{+} subscriscript" i
+_{+}$0
+endsnippet
+snippet dsm "_{-} subscriscript" i
+_{-}$0
+endsnippet
+snippet dsz "_{0} subscriscript" i
+_{0}$0
+endsnippet
 snippet sr "square" iA
 ^2
+endsnippet
+snippet part "partial" i
+\\partial
+endsnippet
+snippet partum "partial^{\mu}" i
+\\partial^{\\mu}
+endsnippet
+snippet partdm "partial_{\mu}" i
+\\partial_{\\mu}
 endsnippet
 snippet sq "sqrt" i
 \\sqrt{${1:${VISUAL}}}$0
@@ -483,10 +517,6 @@ $1
 $0
 endsnippet
 
-snippet eql "eql" b
-\\label{equ:p$1}
-$0
-endsnippet
 #snippet box "Box"
 #`!p snip.rv = '┌' + '─' * (len(t[1]) + 2) + '┐'`
 #│ $1 │
@@ -498,4 +528,12 @@ snippet "Roman(\d)" "Roman number" ir
 endsnippet
 snippet "roman(\d)" "roman number" ir
 \\romannumeral`!p snip.rv=match.group(1)`
+endsnippet
+snippet fig "includegraphics" b
+\\begin{figure}
+\\caption{$1}
+\\label{$2}
+\\includegraphics[${3:scale=0.2}]{$4}
+\\end{figure}
+$0
 endsnippet

@@ -6,6 +6,7 @@ set scrolloff=3
 "function
 set clipboard=unnamed
 "search
+set hlsearch
 set ignorecase
 set incsearch
 set smartcase
@@ -18,6 +19,8 @@ call plug#begin()
 	Plug 'lervag/vimtex'
 	Plug 'honza/vim-snippets'
 	Plug 'sirver/ultisnips'
+	Plug 'godlygeek/tabular'
+	Plug 'plasticboy/vim-markdown'
 "	Plug 'vim-airline/vim-airline'
 call plug#end()
 "vim-airline
