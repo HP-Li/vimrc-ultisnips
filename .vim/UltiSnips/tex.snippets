@@ -161,7 +161,7 @@ endsnippet
 
 #math
 snippet mk "math" wA
-$$1$$0
+$${1:${VISUAL}}$$0
 endsnippet
 snippet dm "math" wA
 \\[
@@ -213,10 +213,22 @@ snippet al "align" b
 \\end{align}
 $0
 endsnippet
+snippet 'al(\d)' "align" br
+\\begin{alignat}{`!p snip.rv = match.group(1)`}
+	${1:${VISUAL}}
+\\end{alignat}
+$0
+endsnippet
 snippet alnn "align" b
 \\begin{align*}
 	${1:${VISUAL}}
 \\end{align*}
+$0
+endsnippet
+snippet 'alnn(\d)' "align" br
+\\begin{alignat*}{`!p snip.rv = match.group(1)`}
+	${1:${VISUAL}}
+\\end{alignat*}
 $0
 endsnippet
 
@@ -354,7 +366,7 @@ snippet "bar" "bar" ri
 \\bar{$1}$0
 endsnippet
 priority 100
-snippet "([a-zA-Z])bar" "bar" ri
+snippet "([a-zA-Z]|\\[a-zA-z]+)bar" "bar" ri
 \\bar{`!p snip.rv=match.group(1)`}
 endsnippet
 priority 10
@@ -377,6 +389,9 @@ endsnippet
 #leftright
 snippet () "left( right)" Ai
 (${1:${VISUAL}})
+endsnippet
+snippet delim "delimiter" Ai
+\\left(${1:${VISUAL}}\\right)
 endsnippet
 snippet [] "left[ right]" Ai
 [${1:${VISUAL}}]
@@ -405,6 +420,9 @@ endsnippet
 snippet "\<(.*?)\|(.*?)\>" "\braket" riA
 \\braket{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}
 endsnippet
+snippet mel "\mel" i
+\\mel{$1}{$2}{$3}$0
+endsnippet
 
 #amssymb
 snippet bec "because" i
@@ -421,10 +439,10 @@ endsnippet
 snippet \be "beta" i
 \\beta
 endsnippet
-snippet \ga "gamma" i
+snippet \gam "gamma" i
 \\gamma
 endsnippet
-snippet \Ga "Gamma" i
+snippet \Gam "Gamma" i
 \\Gamma
 endsnippet
 snippet \de "delta" i
