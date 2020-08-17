@@ -1,2 +1,15 @@
+# colors
+#set statusbar-bg "#00FF00"
+#set statusbar-fg red
+
+# settings
 set window-width 1500
 set window-height 1300
+set adjust-open width
+
+# use sqlite as bookmarks database backend
+#set database sqlite
+
+# key bindings
+#map + zoom in
+#map - zoom out

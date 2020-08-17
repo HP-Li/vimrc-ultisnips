@@ -15,12 +15,15 @@ set splitbelow
 set splitright
 "buffer write pre delect the space of stand in the end of a line
 autocmd BufWritePre * :%s/\s\+$//e
+"color
+hi Search term=standout cterm=bold,reverse ctermfg=Yellow ctermbg=0
+hi Visual term=reverse cterm=reverse ctermbg=0
 call plug#begin()
 	Plug 'lervag/vimtex'
 	Plug 'honza/vim-snippets'
 	Plug 'sirver/ultisnips'
 	Plug 'godlygeek/tabular'
-	Plug 'plasticboy/vim-markdown'
+	Plug 'tpope/vim-markdown'
 "	Plug 'vim-airline/vim-airline'
 call plug#end()
 "vim-airline
@@ -31,6 +34,7 @@ call plug#end()
 let g:vimtex_view_method='zathura'
 let g:vimtex_compiler_latexmk_engines = {'_':'-xelatex'}
 let g:vimtex_quickfix_open_on_warning=0
+let g:tex_flavor = 'latex'
 
 "UltiSnips
 let g:UltiSnipsExpandTrigger="<tab>"
