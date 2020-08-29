@@ -1,6 +1,7 @@
 #!/bin/bash
 feh --recursive --randomize --bg-fill ~/Pictures
-nohup compton >/dev/null 2>&1 &
+compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --unredir-if-possible &
+#nohup compton >/dev/null 2>&1 &
 while true
 do
 	mute=$(amixer -D pulse get Master|tail -n 1|cut -d[ -f3|cut -d] -f1)
