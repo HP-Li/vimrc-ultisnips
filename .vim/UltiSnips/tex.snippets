@@ -123,6 +123,11 @@ endsnippet
 snippet v/ "VFraction" iA
 \\frac{${VISUAL}}{$1}$0
 endsnippet
+priority 100
+snippet "(\\[^ \\]*)/" "fraction" ir
+\\frac{`!p snip.rv=match.group(1)`}{$1}$0
+endsnippet
+priority 1000
 snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wr
 \\frac{`!p snip.rv = match.group(1)`}{$1}$0
 endsnippet
@@ -351,6 +356,10 @@ endsnippet
 snippet ds "_{} subscript" i
 _{${1:${VISUAL}}}$0
 endsnippet
+snippet "ds(\w)" "dsn" ir
+_{`!p snip.rv=match.group(1)`}
+endsnippet
+
 snippet dsp "_{+} subscriscript" i
 _{+}$0
 endsnippet
@@ -436,17 +445,22 @@ endsnippet
 #snippet "\|(.*?)\>" "ket" ri
 #\ket{`!p snip.rv = match.group(1).replace('q', f'\psi').replace('f', f'\phi')`}
 #endsnippet
-snippet "\<(.*)\|" "bra" ri
+priority 0
+snippet "\<([^\|]*)\|" "bra" ri
 \bra{`!p snip.rv = match.group(1)`}
 endsnippet
-snippet "\|(.*?)\>" "ket" ri
+snippet "\|([^\|]*)\>" "ket" ri
 \ket{`!p snip.rv = match.group(1)`}
 endsnippet
 #snippet "(.*)\\bra{(.*?)}([^\|]*?)\>" "braket" riA
 #`!p snip.rv = match.group(1)`\braket{`!p snip.rv = match.group(2)`}{`!p snip.rv = match.group(3).replace('q', f'\psi').replace('f', f'\phi')`}
 #endsnippet
-snippet "\<(.*?)\|(.*?)\>" "\braket" riA
+snippet "\<([^\|]*?)\|([^\|]*?)\>" "\braket" riA
 \\braket{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}
+endsnippet
+priority 10
+snippet "\<([^\|]*?)\|(.*?)\|([^\|]*?)\>" "\braket" riA
+\\mel{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}{`!p snip.rv = match.group(3)`}
 endsnippet
 snippet mel "\mel" i
 \\mel{$1}{$2}{$3}$0
