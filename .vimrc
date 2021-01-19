@@ -4,7 +4,7 @@ set showcmd
 set ruler
 set scrolloff=3
 "function
-set clipboard=unnamed
+set clipboard=unnamedplus
 "search
 set hlsearch
 set ignorecase
@@ -25,6 +25,7 @@ call plug#begin()
 	Plug 'godlygeek/tabular'
 	Plug 'tpope/vim-markdown'
 "	Plug 'vim-airline/vim-airline'
+	"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 "vim-airline
 "let g:airline_powerline_fonts=1
@@ -42,3 +43,5 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="tabdo"
+
+let g:coc_global_extensions = ['coc-json', 'coc-git','coc-rainbow-fart']
