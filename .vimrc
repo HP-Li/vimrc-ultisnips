@@ -44,4 +44,4 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="tabdo"
 
-let g:coc_global_extensions = ['coc-json', 'coc-git','coc-rainbow-fart']
+"let g:coc_global_extensions = ['coc-json', 'coc-git','coc-rainbow-fart']
