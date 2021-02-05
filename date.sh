@@ -1,5 +1,6 @@
 #!/bin/bash
 feh --recursive --randomize --bg-fill --no-fehbg ~/Pictures
+numlockx on
 #nohup compton -CGd >/dev/null 2>&1 &
 #compton -CGb --config /home/haipeng/.config/compton.conf
 compton --backend glx --paint-on-overlay --glx-no-stencil --vsync opengl-swc --unredir-if-possible &
