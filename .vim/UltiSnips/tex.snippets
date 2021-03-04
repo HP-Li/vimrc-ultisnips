@@ -376,6 +376,9 @@ endsnippet
 snippet us "^{} superscript" i
 ^{${1:${VISUAL}}}$0
 endsnippet
+snippet "us(\\?\w+)" "us" ir
+_{`!p snip.rv=match.group(1)`}
+endsnippet
 snippet usp "^{+} superscript" i
 ^{+}$0
 endsnippet
@@ -388,7 +391,7 @@ endsnippet
 snippet ds "_{} subscript" i
 _{${1:${VISUAL}}}$0
 endsnippet
-snippet "ds(\w)" "dsn" ir
+snippet "ds(\\?\w+)" "dsn" ir
 _{`!p snip.rv=match.group(1)`}
 endsnippet
 
