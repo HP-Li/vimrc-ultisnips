@@ -14,12 +14,12 @@ def create_mtable(snip):
 	rows = int_val(rows)
 	cols = int_val(cols)
 
-	offset = cols + 1
+	offset = 4
 	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
 
 	snip.buffer[snip.line] = ''
 
-	final_str = old_spacing + "\\begin{table}[h]\n\\centering\n\\caption{" + "".join(['$'+str(1)]) + "}\n\\begin{tabular}{" + "".join(['$' + str(2)]) + "}\n\\toprule\n"
+	final_str = old_spacing + "\\begin{table}[h]\n\\centering\n\\caption{" + "".join(['$'+str(1)]) + "}\n\\label{" + "".join(['$'+str(2)]) + "}\n\\begin{tabular}{" + "".join(['$' + str(3)]) + "}\n\\toprule\n"
 
 	for i in range(rows):
 		final_str += old_spacing + '\t'
@@ -30,6 +30,34 @@ def create_mtable(snip):
 	final_str += old_spacing + "\\bottomrule\n\\end{tabular}\n\\end{table}$0"
 
 	snip.expand_anon(final_str)
+
+def create_ntable(snip):
+	rows = snip.buffer[snip.line].split('x')[0]
+	cols = snip.buffer[snip.line].split('x')[1]
+
+	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+
+	rows = int_val(rows)
+	cols = int_val(cols)
+
+	offset = 4
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+
+	snip.buffer[snip.line] = ''
+
+	final_str = old_spacing + "\\begin{table}[h]\n\\centering\n\\caption{" + "".join(['$'+str(1)]) + "}\n\\label{" + "".join(['$'+str(2)]) + "}\n\\begin{tabular}{" + "".join(['$' + str(3)]) + "}\n\\Xhline{1pt}\n"
+
+	for i in range(rows):
+		final_str += old_spacing + '\t'
+		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+
+		final_str += "\\\\\\\\\\hline\n"
+
+	final_str = final_str[:-8]+final_str[-1:]
+	final_str += old_spacing + "\\Xhline{1pt}\n\\end{tabular}\n\\end{table}$0"
+
+	snip.expand_anon(final_str)
+
 def create_matrix(snip):
 	rows = snip.buffer[snip.line].split('x')[0]
 	cols = snip.buffer[snip.line].split('x')[1]
@@ -105,6 +133,10 @@ endsnippet
 
 pre_expand "create_mtable(snip)"
 snippet "gentab(\d+)x(\d+)" "Generate matrix of width by height" r
+endsnippet
+
+pre_expand "create_ntable(snip)"
+snippet "genntab(\d+)x(\d+)" "Generate matrix of width by height" r
 endsnippet
 
 snippet \do "\documentclass" b
