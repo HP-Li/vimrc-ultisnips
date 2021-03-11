@@ -155,6 +155,9 @@ endsnippet
 snippet v/ "VFraction" iA
 \\frac{${VISUAL}}{$1}$0
 endsnippet
+snippet vb/ "VFraction" iA
+\\frac{$1}{${VISUAL}}$0
+endsnippet
 priority 100
 snippet "(\\[^ \\]*)/" "fraction" ir
 \\frac{`!p snip.rv=match.group(1)`}{$1}$0
@@ -180,6 +183,10 @@ endsnippet
 snippet '(\d+)/(\d+)' "numberfrac" wr
 \\frac{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}
 endsnippet
+snippet '(\d+)/sq' "frsq" wr
+\\frac{`!p snip.rv=match.group(1)`}{\\sqrt{$1}}$0
+endsnippet
+
 
 #mathematica
 priority 1000
@@ -236,7 +243,7 @@ $0
 endsnippet
 snippet eql "eql" b
 \\begin{equation}
-\\label{equ:p$1}
+\\label{$1}
 $2
 \\end{equation}
 $0
@@ -255,12 +262,20 @@ snippet eqs "equations" b
 \\end{equation}
 $0
 endsnippet
-snippet eqsl "equations" b
+snippet eqa "equations" b
+\\begin{equation}
+\\begin{aligned}
+	${1:${VISUAL}}
+\\end{aligned}
+\\end{equation}
+$0
+endsnippet
+snippet eqal "equations" b
 \\begin{equation}
 \\label{$1}
-\\begin{split}
+\\begin{aligned}
 	${2:${VISUAL}}
-\\end{split}
+\\end{aligned}
 \\end{equation}
 $0
 endsnippet
@@ -445,7 +460,7 @@ snippet "hat" "hat" ri
 \\hat{$1}$0
 endsnippet
 priority 100
-snippet "([a-zA-Z])hat" "hat" ri
+snippet "([a-zA-Z]|\\[a-zA-Z]+)hat" "hat" ri
 \\hat{`!p snip.rv=match.group(1)`}
 endsnippet
 priority 10
@@ -453,9 +468,14 @@ snippet "bar" "bar" ri
 \\bar{$1}$0
 endsnippet
 priority 100
-snippet "([a-zA-Z]|\\[a-zA-z]+)bar" "bar" ri
+snippet "([a-gi-zA-Z]|\\[a-zA-z]+)bar" "bar" ri
 \\bar{`!p snip.rv=match.group(1)`}
 endsnippet
+priority 1000
+snippet "hbar" "hbar" ri
+\\hbar $0
+endsnippet
+
 priority 10
 snippet "ovl" "overline" ri
 \\overline{$1}$0
@@ -511,6 +531,9 @@ endsnippet
 priority 10
 snippet "\<([^\|]*?)\|(.*?)\|([^\|]*?)\>" "\braket" riA
 \\mel{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}{`!p snip.rv = match.group(3)`}
+endsnippet
+snippet "\|([^\|]*?)\>\<([^\|]*?)\|" "\ketbra" riA
+\\dyad{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}
 endsnippet
 snippet mel "\mel" i
 \\mel{$1}{$2}{$3}$0

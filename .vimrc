@@ -1,4 +1,5 @@
 "base
+"set selection=inclusive
 set number
 set showcmd
 set ruler
