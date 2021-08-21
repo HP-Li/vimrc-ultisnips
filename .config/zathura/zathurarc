@@ -13,4 +13,7 @@ set selection-clipboard clipboard
 
 # key bindings
 #map + zoom in
-#map - zoom out
+
+# # Adding reverse search between gvim and zathura
+set synctex true
+#set synctex-editor-command "vim --remote-silent +%{line} %{input}"map - zoom out

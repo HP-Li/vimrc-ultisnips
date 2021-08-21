@@ -14,12 +14,12 @@ def create_mtable(snip):
 	rows = int_val(rows)
 	cols = int_val(cols)
 
-	offset = cols + 1
+	offset = 4
 	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
 
 	snip.buffer[snip.line] = ''
 
-	final_str = old_spacing + "\\begin{table}[h]\n\\centering\n\\caption{" + "".join(['$'+str(1)]) + "}\n\\begin{tabular}{" + "".join(['$' + str(2)]) + "}\n\\toprule\n"
+	final_str = old_spacing + "\\begin{table}[h]\n\\centering\n\\caption{" + "".join(['$'+str(1)]) + "}\n\\label{" + "".join(['$'+str(2)]) + "}\n\\begin{spacing}{1.5}\n\\begin{tabular}{" + "".join(['$' + str(3)]) + "}\n\\toprule\hline\n"
 
 	for i in range(rows):
 		final_str += old_spacing + '\t'
@@ -27,9 +27,37 @@ def create_mtable(snip):
 
 		final_str += "\\\\\\\n"
 
-	final_str += old_spacing + "\\bottomrule\n\\end{tabular}\n\\end{table}$0"
+	final_str += old_spacing + "\\bottomrule\\hline\n\\end{tabular}\n\\end{spacing}\n\\end{table}$0"
 
 	snip.expand_anon(final_str)
+
+def create_ntable(snip):
+	rows = snip.buffer[snip.line].split('x')[0]
+	cols = snip.buffer[snip.line].split('x')[1]
+
+	int_val = lambda string: int(''.join(s for s in string if s.isdigit()))
+
+	rows = int_val(rows)
+	cols = int_val(cols)
+
+	offset = 4
+	old_spacing = snip.buffer[snip.line][:snip.buffer[snip.line].rfind('\t') + 1]
+
+	snip.buffer[snip.line] = ''
+
+	final_str = old_spacing + "\\begin{table}[h]\n\\centering\n\\caption{" + "".join(['$'+str(1)]) + "}\n\\label{" + "".join(['$'+str(2)]) + "}\n\\begin{tabular}{" + "".join(['$' + str(3)]) + "}\n\\Xhline{1pt}\n"
+
+	for i in range(rows):
+		final_str += old_spacing + '\t'
+		final_str += " & ".join(['$' + str(i * cols + j + offset) for j in range(cols)])
+
+		final_str += "\\\\\\\\\\hline\n"
+
+	final_str = final_str[:-8]+final_str[-1:]
+	final_str += old_spacing + "\\Xhline{1pt}\n\\end{tabular}\n\\end{table}$0"
+
+	snip.expand_anon(final_str)
+
 def create_matrix(snip):
 	rows = snip.buffer[snip.line].split('x')[0]
 	cols = snip.buffer[snip.line].split('x')[1]
@@ -107,6 +135,10 @@ pre_expand "create_mtable(snip)"
 snippet "gentab(\d+)x(\d+)" "Generate matrix of width by height" r
 endsnippet
 
+pre_expand "create_ntable(snip)"
+snippet "genntab(\d+)x(\d+)" "Generate matrix of width by height" r
+endsnippet
+
 snippet \do "\documentclass" b
 \\documentclass{${1:article}}
 $0
@@ -122,6 +154,9 @@ snippet "fr(ac)?" "Fraction" ir
 endsnippet
 snippet v/ "VFraction" iA
 \\frac{${VISUAL}}{$1}$0
+endsnippet
+snippet vb/ "VFraction" iA
+\\frac{$1}{${VISUAL}}$0
 endsnippet
 priority 100
 snippet "(\\[^ \\]*)/" "fraction" ir
@@ -148,6 +183,10 @@ endsnippet
 snippet '(\d+)/(\d+)' "numberfrac" wr
 \\frac{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}
 endsnippet
+snippet '(\d+)/sq' "frsq" wr
+\\frac{`!p snip.rv=match.group(1)`}{\\sqrt{$1}}$0
+endsnippet
+
 
 #mathematica
 priority 1000
@@ -204,7 +243,7 @@ $0
 endsnippet
 snippet eql "eql" b
 \\begin{equation}
-\\label{equ:p$1}
+\\label{$1}
 $2
 \\end{equation}
 $0
@@ -221,6 +260,24 @@ snippet eqs "equations" b
 	${1:${VISUAL}}
 \\end{split}
 \\end{equation}
+$0
+endsnippet
+snippet eqa "equations" b
+\\begin{equation}
+\\begin{aligned}
+	${1:${VISUAL}}
+\\end{aligned}
+\\end{equation}
+$0
+endsnippet
+snippet eqal "equations" b
+\\begin{equation}
+\\label{$1}
+\\begin{aligned}
+	${2:${VISUAL}}
+\\end{aligned}
+\\end{equation}
+$0
 endsnippet
 snippet eqsnn "nonumberequations" b
 \\begin{equation*}
@@ -228,6 +285,7 @@ snippet eqsnn "nonumberequations" b
 	${1:${VISUAL}}
 \\end{split}
 \\end{equation*}
+$0
 endsnippet
 snippet eq "equation" b
 \\begin{equation}
@@ -341,6 +399,7 @@ snippet mathscr "mathscr" i
 endsnippet
 
 #script
+priority 100
 snippet us "^{} superscript" i
 ^{${1:${VISUAL}}}$0
 endsnippet
@@ -353,11 +412,13 @@ endsnippet
 snippet usz "^{0} superscript" i
 ^{0}$0
 endsnippet
+priority 10
+snippet "us((\\?\w+)+)" "us" ir
+^{`!p snip.rv=match.group(1)`}
+endsnippet
+priority 100
 snippet ds "_{} subscript" i
 _{${1:${VISUAL}}}$0
-endsnippet
-snippet "ds(\w)" "dsn" ir
-_{`!p snip.rv=match.group(1)`}
 endsnippet
 
 snippet dsp "_{+} subscriscript" i
@@ -366,8 +427,9 @@ endsnippet
 snippet dsm "_{-} subscriscript" i
 _{-}$0
 endsnippet
-snippet dsz "_{0} subscriscript" i
-_{0}$0
+priority 10
+snippet "ds((\\?\w+)+)" "dsn" ir
+_{`!p snip.rv=match.group(1)`}
 endsnippet
 snippet sr "square" iA
 ^2
@@ -395,7 +457,7 @@ snippet "hat" "hat" ri
 \\hat{$1}$0
 endsnippet
 priority 100
-snippet "([a-zA-Z])hat" "hat" ri
+snippet "([a-zA-Z]|\\[a-zA-Z]+)hat" "hat" ri
 \\hat{`!p snip.rv=match.group(1)`}
 endsnippet
 priority 10
@@ -403,9 +465,14 @@ snippet "bar" "bar" ri
 \\bar{$1}$0
 endsnippet
 priority 100
-snippet "([a-zA-Z]|\\[a-zA-z]+)bar" "bar" ri
+snippet "([a-gi-zA-Z]|\\[a-zA-z]+)bar" "bar" ri
 \\bar{`!p snip.rv=match.group(1)`}
 endsnippet
+priority 1000
+snippet "hbar" "hbar" ri
+\\hbar $0
+endsnippet
+
 priority 10
 snippet "ovl" "overline" ri
 \\overline{$1}$0
@@ -458,9 +525,15 @@ endsnippet
 snippet "\<([^\|]*?)\|([^\|]*?)\>" "\braket" riA
 \\braket{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}
 endsnippet
+snippet "\<([^\|]*?)\>" "\trace" ri
+\\langle`!p snip.rv = match.group(1)`\\rangle
+endsnippet
 priority 10
 snippet "\<([^\|]*?)\|(.*?)\|([^\|]*?)\>" "\braket" riA
 \\mel{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}{`!p snip.rv = match.group(3)`}
+endsnippet
+snippet "\|([^\|]*?)\>\<([^\|]*?)\|" "\ketbra" riA
+\\dyad{`!p snip.rv = match.group(1)`}{`!p snip.rv = match.group(2)`}
 endsnippet
 snippet mel "\mel" i
 \\mel{$1}{$2}{$3}$0
@@ -487,10 +560,10 @@ endsnippet
 snippet \Gam "Gamma" i
 \\Gamma
 endsnippet
-snippet \de "delta" i
+snippet \del "delta" i
 \\delta
 endsnippet
-snippet \De "Delta" i
+snippet \Del "Delta" i
 \\Delta
 endsnippet
 snippet \ep "epsilon" i
@@ -571,8 +644,8 @@ endsnippet
 
 #beamer
 snippet frame "frame" b
-\\begin{frame}
-$1
+\\begin{frame}{$1}
+$2
 \\end{frame}
 $0
 endsnippet

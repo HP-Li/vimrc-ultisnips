@@ -1,4 +1,5 @@
 "base
+"set selection=inclusive
 set number
 set showcmd
 set ruler
@@ -24,12 +25,12 @@ call plug#begin()
 	Plug 'sirver/ultisnips'
 	Plug 'godlygeek/tabular'
 	Plug 'tpope/vim-markdown'
-"	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline'
 	"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 "vim-airline
 "let g:airline_powerline_fonts=1
-"let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#enabled=1
 
 "vimtex
 let g:vimtex_view_method='zathura'
