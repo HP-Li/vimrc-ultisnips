@@ -1,4 +1,5 @@
 #!/bin/bash
+#fcitx
 feh --recursive --randomize --bg-fill --no-fehbg ~/Pictures
 numlockx on
 #nohup compton -CGd >/dev/null 2>&1 &
